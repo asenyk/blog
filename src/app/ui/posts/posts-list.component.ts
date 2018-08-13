@@ -11,6 +11,9 @@ import {PostsService} from "./posts.service";
 
 export class PostListComponent implements OnInit {
   posts: any = [];
+  users: any = [];
+  comments: any = [];
+  showPost: any = {};
   errorMsg: string;
 
   constructor(private _postsService: PostsService) {
@@ -20,6 +23,13 @@ export class PostListComponent implements OnInit {
     this._postsService.getPosts()
       .subscribe(resPostsData => this.posts = resPostsData,
         resPostsError => this.errorMsg = resPostsError);
-  }
 
+    this._postsService.getUsers()
+      .subscribe(resPostsData => this.users = resPostsData,
+        resPostsError => this.errorMsg = resPostsError);
+
+    this._postsService.getComments()
+      .subscribe(resPostsData => this.comments = resPostsData,
+        resPostsError => this.errorMsg = resPostsError);
+  }
 }
