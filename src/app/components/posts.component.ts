@@ -8,42 +8,25 @@ import {PostsService} from '../services/posts.service';
 })
 
 export class PostsComponent  implements OnInit{
-  name: string;
-  email: string;
-  address: any = [];
-  hobbies: string[];
-  showHobbies: boolean;
-  posts:any =[];
+  posts: any = [];
+  comments: any = [];
+  users: any = [];
+  showPost: any = {};
+  errorMsg: string;
 
   constructor(private postsService: PostsService){ }
 
-  ngOnInit(){
-    this.name = 'John Doe';
-    this.email = 'john@gmail.com';
-      this.address = {
-        street: '12 Main st',
-        city: 'Boston',
-        state: 'MA'
-      };
-    this.hobbies = ['Music', 'Movies', 'Sports'];
-    this.showHobbies = false;
+  ngOnInit() {
+    this.postsService.getPosts()
+      .subscribe(resPostsData => this.posts = resPostsData,
+        resPostsError => this.errorMsg = resPostsError);
 
+    this.postsService.getUsers()
+      .subscribe(resPostsData => this.users = resPostsData,
+        resPostsError => this.errorMsg = resPostsError);
 
-    this.postsService.getPosts().subscribe(posts => {
-      this.posts = posts;
-    });
-  }
-
-
-  toggleHobbies(){
-    this.showHobbies = !this.showHobbies;
-  }
-
-  addHobby(hobby: any){
-    this.hobbies.push(hobby);
-  }
-
-  deleteHobby(i: any){
-    this.hobbies.splice(i, 1);
+    this.postsService.getComments()
+      .subscribe(resPostsData => this.comments = resPostsData,
+        resPostsError => this.errorMsg = resPostsError);
   }
 }
