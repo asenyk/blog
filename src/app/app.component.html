@@ -1,9 +1,21 @@
-<app-layout>
-  <div class="jumbotron">
-    <h1>Test blog.</h1>
-    <p>
-      Here you will see dummy data.
-    </p>
+<nav class="navbar navbar-dark bg-dark mb-5">
+  <a class="navbar-brand" href="/">Test Angular application</a>
+  <div class="navbar-expand mr-auto">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" routerLink="/">Home</a>
+    </div>
   </div>
-</app-layout>
-
+  <div class="navbar-expand ml-auto navbar-nav">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" href="https://github.com/asenyk/blog" target="_blank">
+        <i class="fa fa-github"></i>
+      </a>
+    </div>
+  </div>
+</nav>
+<posts></posts>
+<nav class="navbar navbar-dark bg-dark mt-5 fixed-bottom">
+  <div class="navbar-expand m-auto navbar-text">
+    Made by <a href="https://github.com/asenyk/blog">Junior</a>
+  </div>
+</nav>
