@@ -13,6 +13,7 @@ export class PostsComponent  implements OnInit{
   users: any = [];
   showPost: any = {};
   errorMsg: string;
+  commentsByPostId: any = [];
 
   constructor(private postsService: PostsService){ }
 
@@ -28,5 +29,10 @@ export class PostsComponent  implements OnInit{
     this.postsService.getComments()
       .subscribe(resPostsData => this.comments = resPostsData,
         resPostsError => this.errorMsg = resPostsError);
+  }
+
+  getCommentsByPostId(postId: number) {
+    this.commentsByPostId = this.comments.filter(comment => comment.postId == postId);
+    return this.commentsByPostId;
   }
 }

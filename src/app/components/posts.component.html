@@ -5,7 +5,10 @@
   </div>
   <div ngClass="showPost{{post.id}}" [hidden]="!showPost[post.id]">
     <p>{{post.body}}</p>
-    <ul *ngFor="let comment of comments">
+    <button class="btn btn-default btn-md" style="cursor:pointer;" (click)="getCommentsByPostId(post.id)">
+      comment
+    </button>
+    <ul *ngFor="let comment of commentsByPostId">
       <div *ngIf="post.id == comment.postId">
         -------
         {{comment.body}}
