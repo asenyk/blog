@@ -4,6 +4,7 @@ import {PostsService} from '../services/posts.service';
 @Component({
   selector: 'posts',
   templateUrl: './posts.component.html',
+  styleUrls: ['./posts.component.css'],
   providers: [PostsService]
 })
 
@@ -11,9 +12,13 @@ export class PostsComponent  implements OnInit{
   posts: any = [];
   comments: any = [];
   users: any = [];
+  user: any = {};
   showPost: any = {};
+  showComment: any = {};
   errorMsg: string;
   commentsByPostId: any = [];
+  p: number = 1;
+  collection: any[] = this.posts;
 
   constructor(private postsService: PostsService){ }
 
@@ -29,10 +34,17 @@ export class PostsComponent  implements OnInit{
     this.postsService.getComments()
       .subscribe(resPostsData => this.comments = resPostsData,
         resPostsError => this.errorMsg = resPostsError);
+
   }
 
   getCommentsByPostId(postId: number) {
     this.commentsByPostId = this.comments.filter(comment => comment.postId == postId);
     return this.commentsByPostId;
   }
+
+  userById(userId: number) {
+    let user: any = this.users.find(user => user.id == userId);
+    return user.name;
+  }
+
 }
