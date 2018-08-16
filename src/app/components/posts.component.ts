@@ -47,4 +47,13 @@ export class PostsComponent  implements OnInit{
     return user.name;
   }
 
+  addComment(name: string, body: string, mail: string, postId: number) {
+    let newComment: any = {
+        name: name,
+        body: body,
+        mail: mail,
+        postId: postId
+    };
+    this.comments.push(newComment);
+  }
 }
