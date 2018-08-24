@@ -9,6 +9,8 @@ import {PostsComponent}  from './components/posts.component';
 import {PostComponent} from './components/post.component'
 import {NotFoundComponent} from "./components/not-found.component";
 import {PostsService} from './services/posts.service';
+import {UsersService} from './services/users.service';
+
 
 const appRoutes: Routes =[
   { path: '', component: PostsComponent},
@@ -30,7 +32,7 @@ const appRoutes: Routes =[
     NgxPaginationModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [PostsService],
+  providers: [PostsService, UsersService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

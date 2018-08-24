@@ -1,13 +1,15 @@
-<h3>
-  <small class="text-muted">All Posts:</small>
-</h3>
-<div class="list-group mb-2" *ngFor="let post of posts | paginate: { itemsPerPage: 10, currentPage: p }">
-  <div class="list-group-item list-group-item-action row">
-    <div class="row">
-      <div class="col-md-40">
-        <!--<div class="badge badge-secondary">Wrote by: {{userById(post.userId)}}</div>-->
-        <div>
-          <a routerLink="/post/{{post.id}}"><strong>{{post.title}}</strong></a>
+<div class="pl-4">
+  <h3>
+    <small class="text-muted">All Posts:</small>
+  </h3>
+  <div class="list-group mb-2" *ngFor="let post of posts | paginate: { itemsPerPage: 10, currentPage: p }">
+    <div class="list-group-item list-group-item-action row">
+      <div class="row">
+        <div class="col-md-40">
+          <!--<div class="badge badge-secondary">Wrote by: {{userById(post.userId)}}</div>-->
+          <div>
+            <a routerLink="/post/{{post.id}}"><strong>{{post.title}}</strong></a>
+          </div>
         </div>
       </div>
     </div>

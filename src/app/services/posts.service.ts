@@ -1,27 +1,62 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
+import {map, mergeMap} from 'rxjs/operators';
+import {UsersService, User} from './users.service';
+import {Observable} from "rxjs";
 
 @Injectable()
 export class PostsService {
 
   private urlPosts: string = 'https://jsonplaceholder.typicode.com/posts';
-  private urlUsers: string = 'https://jsonplaceholder.typicode.com/users';
   private urlComments: string = 'https://jsonplaceholder.typicode.com/comments';
 
-  constructor(private http: HttpClient){  }
-  getPosts(page){
-    return this.http.get(this.urlPosts + '?_start=' + page);
+  constructor(private http: HttpClient, private usersService: UsersService) {
   }
-  getUsers(){
-    return this.http.get(this.urlUsers);
+
+  getPosts(page): Observable<PostsData> {
+    return this.http
+      .get(this.urlPosts + '?_page=' + page, {observe: 'response'})
+      .pipe(
+        convertPostsResponseToData(),
+        fulfillPostsWithUserData(this.usersService)
+      );
   }
-  getComments(postId){
-    return this.http.get(this.urlComments + '?postId=' + postId );
+
+  getComments(postId) {
+    return this.http.get(this.urlComments + '?postId=' + postId);
   }
-  getPostById(postId){
+
+  getPostById(postId) {
     return this.http.get(this.urlPosts + '/' + postId);
   }
-  getUserById(userId){
-    return this.http.get(this.urlUsers + '/' + userId);
-  }
+}
+
+function convertPostsResponseToData() {
+  return map((response: HttpResponse<any>) => ({
+    posts: response.body,
+    totalCount: response.headers.get('X-Total-Count')
+  }));
+}
+
+function fulfillPostsWithUserData(usersService) {
+  return mergeMap((data: PostsData) => {
+    const userIds = data.posts.reduce((result, post) => {
+      if (!result.includes(post.userId)) {
+        result.push(post.userId);
+      }
+      return result;
+    }, []);
+
+    return usersService.getUsersList(userIds).pipe(
+      map((users: Map<number, User>)=> ({
+        ...data,
+        posts: data.posts.map(post => ({...post, user: users.get(post.userId)}))
+      }))
+    );
+  })
+}
+
+interface PostsData {
+  posts: any[];
+  totalCount: number;
 }

@@ -30,12 +30,11 @@ export class PostComponent {
     .subscribe(resPostsData => this.comments = resPostsData,
       resPostsError => this.errorMsg = resPostsError);
   }
-
-  userById(userId) {
-      this.postsService.getUserById(userId)
-        .subscribe(resPostsData => this.user = resPostsData,
-          resPostsError => this.errorMsg = resPostsError);
-      return this.user.name;
-    }
+  // userById(userId) {
+  //     this.postsService.getUserById(userId)
+  //       .subscribe(resPostsData => this.user = resPostsData,
+  //         resPostsError => this.errorMsg = resPostsError);
+  //     return this.user.name;
+  //   }
 
 }
