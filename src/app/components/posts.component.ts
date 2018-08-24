@@ -9,51 +9,34 @@ import {PostsService} from '../services/posts.service';
 })
 
 export class PostsComponent  implements OnInit{
-  posts: any = [];
-  comments: any = [];
-  users: any = [];
+  posts: any;
   user: any = {};
-  showPost: any = {};
-  showComment: any = {};
   errorMsg: string;
-  commentsByPostId: any = [];
   p: number = 1;
+  totalPosts: any;
   collection: any[] = this.posts;
 
   constructor(private postsService: PostsService){ }
 
   ngOnInit() {
-    this.postsService.getPosts()
-      .subscribe(resPostsData => this.posts = resPostsData,
-        resPostsError => this.errorMsg = resPostsError);
+    this.postByPage(this.p);
+  }
 
-    this.postsService.getUsers()
-      .subscribe(resPostsData => this.users = resPostsData,
-        resPostsError => this.errorMsg = resPostsError);
+  // userById(userId) {
+  //   this.postsService.getUserById(userId)
+  //     .subscribe(resPostsData => this.user = resPostsData,
+  //       resPostsError => this.errorMsg = resPostsError);
+  //   return this.user.name;
+  // }
 
-    this.postsService.getComments()
-      .subscribe(resPostsData => this.comments = resPostsData,
-        resPostsError => this.errorMsg = resPostsError);
+  postByPage(page) {
+    this.postsService.getPosts(page)
+      .subscribe(resPostsData => {
+        this.posts = resPostsData;
+        // console.log(resPostsData.header.getAll('X-Total-Count'));
+        // this.totalPosts = resPostsData.header.get('X-Total-Count');
+      });
 
   }
 
-  getCommentsByPostId(postId: number) {
-    this.commentsByPostId = this.comments.filter(comment => comment.postId == postId);
-    return this.commentsByPostId;
-  }
-
-  userById(userId: number) {
-    let user: any = this.users.find(user => user.id == userId);
-    return user.name;
-  }
-
-  addComment(name: string, body: string, mail: string, postId: number) {
-    let newComment: any = {
-        name: name,
-        body: body,
-        mail: mail,
-        postId: postId
-    };
-    this.comments.push(newComment);
-  }
 }

@@ -9,13 +9,19 @@ export class PostsService {
   private urlComments: string = 'https://jsonplaceholder.typicode.com/comments';
 
   constructor(private http: HttpClient){  }
-  getPosts(){
-    return this.http.get(this.urlPosts);
+  getPosts(page){
+    return this.http.get(this.urlPosts + '?_start=' + page);
   }
   getUsers(){
     return this.http.get(this.urlUsers);
   }
-  getComments(){
-    return this.http.get(this.urlComments);
+  getComments(postId){
+    return this.http.get(this.urlComments + '?postId=' + postId );
+  }
+  getPostById(postId){
+    return this.http.get(this.urlPosts + '/' + postId);
+  }
+  getUserById(userId){
+    return this.http.get(this.urlUsers + '/' + userId);
   }
 }

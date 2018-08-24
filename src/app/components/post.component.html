@@ -1,0 +1,20 @@
+<div class="mb-2 list-group-item list-group-item-action row">
+  <div class="badge badge-secondary">Wrote by: {{userById(post.userId)}}</div>
+  <div><strong>{{post.title}}</strong></div>
+  <p>{{post.body}}</p>
+
+  <div>
+    <h5>Comments:</h5>
+    <div *ngFor="let comment of comments" class="list-group">
+      <div class="list-group-item mb-1 ml-3">
+        <strong>{{comment.name}}</strong><br/>
+        {{comment.body}}
+      </div>
+    </div>
+    <label>Add comment: </label><br/>
+    <input class="mb-1" type="text" placeholder="Title:" #name/><br/>
+    <input class="mb-1" type="text" placeholder="Comment" #body/><br/>
+    <input class="mb-1" type="text" placeholder="Mail" #mail/><br/>
+    <button class="btn btn-secondary" (click)="addComment(name.value, body.value, mail.value, post.id)">Submit</button>
+  </div>
+</div>
