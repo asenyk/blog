@@ -1,0 +1,9 @@
+<nav class="-align-center">
+  <ul class="pagination">
+    <li class="page-item" [class.disabled]="disablePre"><a class="page-link" routerLink="/page/{{prePage}}">Previous</a></li>
+    <li class="page-item" [class.disabled]="disablePre"><a class="page-link" routerLink="/page/{{prePage}}">{{prePage}}</a></li>
+    <li class="page-item disabled"><a class="page-link bg-info" href="#">{{currentPage}}</a></li>
+    <li class="page-item" [class.disabled]="disableNext"><a class="page-link" routerLink="/page/{{nextPage}}">{{nextPage}}</a></li>
+    <li class="page-item" [class.disabled]="disableNext"><a class="page-link" routerLink="/page/{{nextPage}}">Next</a></li>
+  </ul>
+</nav>

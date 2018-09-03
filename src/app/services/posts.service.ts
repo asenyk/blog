@@ -8,7 +8,6 @@ import {Observable} from "rxjs";
 export class PostsService {
 
   private urlPosts: string = 'https://jsonplaceholder.typicode.com/posts';
-  private urlComments: string = 'https://jsonplaceholder.typicode.com/comments';
 
   constructor(private http: HttpClient, private usersService: UsersService) {
   }
@@ -22,10 +21,6 @@ export class PostsService {
       );
   }
 
-  getComments(postId) {
-    return this.http.get(this.urlComments + '?postId=' + postId);
-  }
-
   getPostById(postId) {
     return this.http.get(this.urlPosts + '/' + postId);
   }
@@ -34,7 +29,7 @@ export class PostsService {
 function convertPostsResponseToData() {
   return map((response: HttpResponse<any>) => ({
     posts: response.body,
-    totalCount: response.headers.get('X-Total-Count')
+    totalCount: parseInt(response.headers.get('X-Total-Count'), 10)
   }));
 }
 
