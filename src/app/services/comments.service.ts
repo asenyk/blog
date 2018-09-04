@@ -14,9 +14,12 @@ export class CommentsService {
   }
 
   postComment(comment: Comments) {
-    const body = {postId: comment.postId, name: comment.name, body: comment.body, email: comment.email};
-    const myHeaders = new HttpHeaders().set('Content-type', 'application/json; charset=UTF-8');
-    return this.http.post(this.urlComments, body, {headers:myHeaders});
+    return this.http.post(this.urlComments, {
+      postId: comment.postId,
+      name: comment.name,
+      body: comment.body,
+      email: comment.email
+    });
   }
 
 }

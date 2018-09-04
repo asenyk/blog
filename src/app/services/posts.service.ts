@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {map, mergeMap} from 'rxjs/operators';
 import {UsersService, User} from './users.service';
+import {CommentsService, Comments} from './comments.service';
 import {Observable} from "rxjs";
 
 @Injectable()
@@ -9,21 +10,42 @@ export class PostsService {
 
   private urlPosts: string = 'https://jsonplaceholder.typicode.com/posts';
 
-  constructor(private http: HttpClient, private usersService: UsersService) {
+  constructor(private http: HttpClient, private usersService: UsersService, private commentsService: CommentsService) {
   }
 
   getPosts(page): Observable<PostsData> {
     return this.http
       .get(this.urlPosts + '?_page=' + page, {observe: 'response'})
-      .pipe(
+      .pipe<PostsData>(
         convertPostsResponseToData(),
         fulfillPostsWithUserData(this.usersService)
       );
   }
 
-  getPostById(postId) {
-    return this.http.get(this.urlPosts + '/' + postId);
+  getPostWithComments(postId) {
+    return this.http
+      .get(this.urlPosts + '/' + postId)
+      .pipe(
+        mapPost(this.usersService),
+        addCommentsToPost(this.commentsService)
+      );
   }
+}
+
+function mapPost(userService) {
+  return mergeMap((post: {userId: number}) => {
+    return userService.getUserById(post.userId).pipe(
+      map((user: User) => ({...post, user}))
+    );
+  });
+}
+
+function addCommentsToPost(commetService) {
+  return mergeMap((post: {id: number}) => {
+    return commetService.getComments(post.id).pipe(
+      map((comments: Comments) => ({...post, comments}))
+    );
+  })
 }
 
 function convertPostsResponseToData() {

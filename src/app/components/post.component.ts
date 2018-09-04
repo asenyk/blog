@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {PostsService} from '../services/posts.service';
 import {CommentsService, Comments} from "../services/comments.service";
@@ -14,10 +14,9 @@ import {UsersService, User} from '../services/users.service';
 export class PostComponent {
 
   id: number;
-  post: any = [];
+  post: any;
   comments: any = [];
   newComment: any = [];
-  errorMsg: string;
   user: User;
 
 
@@ -29,20 +28,13 @@ export class PostComponent {
   }
 
   ngOnInit() {
-    this.postsService.getPostById(this.id)
-      .subscribe(resPostsData => this.post = resPostsData,
-        resPostsError => this.errorMsg = resPostsError);
-    this.commentsService.getComments(this.id)
-      .subscribe(resPostsData => this.comments = resPostsData,
-        resPostsError => this.errorMsg = resPostsError);
-    console.log(this.post)
+    this.getPostData(this.id);
   }
 
-  userById(userId) {
-    this.usersService.getUserById(userId)
-      .subscribe(resPostsData => this.user = resPostsData,
-        resPostsError => this.errorMsg = resPostsError);
-    return this.user.name;
+  getPostData(postId) {
+    this.postsService.getPostWithComments(postId).subscribe((data) => {
+      console.log('result:', data);
+    });
   }
 
   addComment(newComment: Comments, id: number) {
