@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
-import {map, mergeMap} from 'rxjs/operators';
+import {map, mergeMap, tap} from 'rxjs/operators';
 import {UsersService, User} from './users.service';
 import {CommentsService, Comments} from './comments.service';
 import {Observable} from "rxjs";
@@ -17,6 +17,7 @@ export class PostsService {
     return this.http
       .get(this.urlPosts + '?_page=' + page, {observe: 'response'})
       .pipe<PostsData>(
+        tap(data => console.log(data)),
         convertPostsResponseToData(),
         fulfillPostsWithUserData(this.usersService)
       );

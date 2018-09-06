@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {PostsService} from '../services/posts.service';
 
@@ -9,10 +9,9 @@ import {PostsService} from '../services/posts.service';
   providers: [PostsService]
 })
 
-export class PaginationComponent {
+export class PaginationComponent implements OnInit, AfterViewInit{
 
   currentPage: number;
-  totalCount: number;
   totalPages: number;
   nextPage: number;
   prePage: number;

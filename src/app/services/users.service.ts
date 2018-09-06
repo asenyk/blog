@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable, Subject, forkJoin} from "rxjs";
+import {Observable, zip} from "rxjs";
 import {map} from "rxjs/operators";
 
 @Injectable()
@@ -16,18 +16,14 @@ export class UsersService {
     if (this.users.has(userId)) {
       return this.users.get(userId);
     } else {
-      const user = new Subject<User>();
-      this.http.get<User>(this.urlUsers + '/' + userId).subscribe(data => {
-        user.next(data);
-        user.complete();
-      });
+      const user = this.http.get<User>(this.urlUsers + '/' + userId);
       this.users.set(userId, user);
       return user;
     }
   }
 
   getUsersList(ids: number[]): Observable<Map<number, User>> {
-    return forkJoin(...ids.map(id => this.getUserById(id))).pipe(
+    return zip(...ids.map(id => this.getUserById(id)), (...args) => [...args]).pipe(
       map(users => {
         const result: Map<number, User> = new Map();
         users.forEach(user => result.set(user.id, user));

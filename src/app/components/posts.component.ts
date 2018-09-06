@@ -9,7 +9,7 @@ import {ActivatedRoute} from "@angular/router";
   providers: [PostsService]
 })
 
-export class PostsComponent  implements OnInit{
+export class PostsComponent  implements OnInit {
   posts: any;
   user: any = {};
   p: number;
@@ -19,8 +19,10 @@ export class PostsComponent  implements OnInit{
   }
 
   ngOnInit() {
-    this.activateRoute.params.subscribe( params => this.p = parseInt(params.id, 10));
-    this.postByPage(this.p);
+    this.activateRoute.params.subscribe( params => {
+      this.p = parseInt(params.id, 10)
+      this.postByPage(this.p);
+    });
   }
 
   postByPage(page) {

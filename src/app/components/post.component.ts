@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {PostsService} from '../services/posts.service';
 import {CommentsService, Comments} from "../services/comments.service";
-import {UsersService, User} from '../services/users.service';
 
 @Component({
   selector: 'post',
@@ -11,29 +10,26 @@ import {UsersService, User} from '../services/users.service';
   providers: [PostsService, CommentsService]
 })
 
-export class PostComponent {
+export class PostComponent implements OnInit {
 
   id: number;
   post: any;
-  comments: any = [];
   newComment: any = [];
-  user: User;
-
 
   constructor(private activateRoute: ActivatedRoute,
               private postsService: PostsService,
-              private commentsService: CommentsService,
-              private usersService: UsersService) {
-    this.id = activateRoute.snapshot.params['id'];
+              private commentsService: CommentsService) {
   }
 
   ngOnInit() {
+    this.id = this.activateRoute.snapshot.params['id'];
     this.getPostData(this.id);
   }
 
   getPostData(postId) {
     this.postsService.getPostWithComments(postId).subscribe((data) => {
-      console.log('result:', data);
+      this.post = data;
+      console.log('result:', this.post);
     });
   }
 
