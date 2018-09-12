@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {Routes, RouterModule} from '@angular/router';
+import {NgHttpLoaderModule} from 'ng-http-loader';
 import {AppComponent} from "./app.component";
 import {PostsComponent}  from './components/posts.component';
 import {PostComponent} from './components/post.component'
@@ -30,6 +31,7 @@ const appRoutes: Routes =[
   imports: [
     BrowserModule,
     FormsModule,
+    NgHttpLoaderModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],

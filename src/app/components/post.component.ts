@@ -29,7 +29,6 @@ export class PostComponent implements OnInit {
   getPostData(postId) {
     this.postsService.getPostWithComments(postId).subscribe((data) => {
       this.post = data;
-      console.log('result:', this.post);
     });
   }
 

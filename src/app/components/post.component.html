@@ -1,3 +1,4 @@
+<button type="button" class="btn btn-secondary m-2" routerLink="/">Back to posts</button>
 <div class="mb-2 list-group-item list-group-item-action row" *ngIf="post">
   <div class="badge badge-secondary">Wrote by: {{post.user.name}}</div>
   <div><strong>{{post.title}}</strong></div>
@@ -14,17 +15,19 @@
 </div>
 
 <div class="form-group">
-  <label>name</label>
-  <input class="form-control" name="name" [(ngModel)]="newComment.name"/>
-</div>
-<div class="form-group">
-  <label>body</label>
-  <input class="form-control" name="body" [(ngModel)]="newComment.body"/>
-</div>
-<div class="form-group">
-  <label>mail</label>
-  <input class="form-control" type="email" name="mail" [(ngModel)]="newComment.email"/>
-</div>
-<div class="form-group">
-  <button class="btn btn-default" (click)="addComment(newComment, post.id)">send</button>
+  <h5 class="ml-2">Add new comment:</h5>
+  <div class="form-row p-3">
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Enter your name" [(ngModel)]="newComment.name">
+    </div>
+    <div class="col">
+      <input type="email" class="form-control" placeholder="Enter you email" [(ngModel)]="newComment.email">
+    </div>
+  </div>
+  <div class="form-row mt-2 p-4">
+    <input type="text" class="form-control" placeholder="Enter comment message" [(ngModel)]="newComment.body"/>
+  </div>
+  <div class="form-row justify-content-center mt-2">
+    <button class="btn btn-secondary" (click)="addComment(newComment, post.id)">Post new comment</button>
+  </div>
 </div>

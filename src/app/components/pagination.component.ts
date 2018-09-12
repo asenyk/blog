@@ -13,10 +13,12 @@ export class PaginationComponent implements OnInit, AfterViewInit{
 
   currentPage: number;
   totalPages: number;
-  nextPage: number;
-  prePage: number;
-  disablePre: boolean;
-  disableNext: boolean;
+  delta: number = 2;
+  left: number;
+  right: number;
+  range: any = [];
+  rangeWithDots: any = [];
+  l:number;
 
   private _totalPosts: number;
 
@@ -51,10 +53,28 @@ export class PaginationComponent implements OnInit, AfterViewInit{
   updatePagination() {
     if (this.totalPosts > 0) {
       this.totalPages = this.totalPosts / 10;
-      this.nextPage = this.currentPage + 1;
-      this.prePage = this.currentPage - 1;
-      this.currentPage <= 1 ? this.disablePre = true : this.disablePre = false;
-      this.currentPage >= this.totalPages ? this.disableNext = true : this.disableNext = false;
+      // this.totalPages = 40;
+      this.range = [];
+      this.rangeWithDots = [];
+      this.l = null;
+      this.left = this.currentPage - this.delta;
+      this.right = this.currentPage + this.delta + 1;
+      for (let i = 1; i <= this.totalPages; i++) {
+        if (i == 1 || i == this.totalPages || i >= this.left && i < this.right) {
+          this.range.push(i);
+        }
+      }
+      for (let i of this.range) {
+        if (this.l) {
+          if (i - this.l === 3) {
+            this.rangeWithDots.push(this.l + 1);
+          } else if (i - this.l !== 1) {
+            this.rangeWithDots.push('...');
+          }
+        }
+        this.rangeWithDots.push(i);
+        this.l = i;
+      }
     } else {
       this.totalPages = 0;
     }

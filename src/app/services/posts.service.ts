@@ -17,7 +17,6 @@ export class PostsService {
     return this.http
       .get(this.urlPosts + '?_page=' + page, {observe: 'response'})
       .pipe<PostsData>(
-        tap(data => console.log(data)),
         convertPostsResponseToData(),
         fulfillPostsWithUserData(this.usersService)
       );

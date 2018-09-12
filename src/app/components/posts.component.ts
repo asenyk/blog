@@ -20,7 +20,7 @@ export class PostsComponent  implements OnInit {
 
   ngOnInit() {
     this.activateRoute.params.subscribe( params => {
-      this.p = parseInt(params.id, 10)
+      this.p = parseInt(params.id, 10);
       this.postByPage(this.p);
     });
   }
