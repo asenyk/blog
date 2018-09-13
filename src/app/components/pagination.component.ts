@@ -9,7 +9,7 @@ import {PostsService} from '../services/posts.service';
   providers: [PostsService]
 })
 
-export class PaginationComponent implements OnInit, AfterViewInit{
+export class PaginationComponent implements OnInit, AfterViewInit {
 
   currentPage: number;
   totalPages: number;
@@ -18,7 +18,7 @@ export class PaginationComponent implements OnInit, AfterViewInit{
   right: number;
   range: any = [];
   rangeWithDots: any = [];
-  l:number;
+  l: number;
 
   private _totalPosts: number;
 
@@ -44,7 +44,7 @@ export class PaginationComponent implements OnInit, AfterViewInit{
   }
 
   addPages() {
-    this.activateRoute.params.subscribe( params => {
+    this.activateRoute.params.subscribe(params => {
       this.currentPage = parseInt(params.id, 10);
       this.updatePagination();
     });
@@ -53,12 +53,11 @@ export class PaginationComponent implements OnInit, AfterViewInit{
   updatePagination() {
     if (this.totalPosts > 0) {
       this.totalPages = this.totalPosts / 10;
-      // this.totalPages = 40;
       this.range = [];
       this.rangeWithDots = [];
       this.l = null;
-      this.left = this.currentPage - this.delta;
-      this.right = this.currentPage + this.delta + 1;
+      this.currentPage == this.totalPages ? this.left = this.currentPage - this.delta - 2 : this.left = this.currentPage - this.delta + 1;
+      this.currentPage == 1 ? this.right = this.currentPage + this.delta + 3 : this.right = this.currentPage + this.delta;
       for (let i = 1; i <= this.totalPages; i++) {
         if (i == 1 || i == this.totalPages || i >= this.left && i < this.right) {
           this.range.push(i);
