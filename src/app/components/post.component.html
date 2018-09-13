@@ -13,21 +13,57 @@
     </div>
   </div>
 </div>
-
-<div class="form-group">
-  <h5 class="ml-2">Add new comment:</h5>
-  <div class="form-row p-3">
-    <div class="col">
-      <input type="text" class="form-control" placeholder="Enter your name" [(ngModel)]="newComment.name">
+  <div class="form-group">
+    <h5 class="ml-2">Add new comment:</h5>
+    <div class="form-row p-3">
+      <div class="col">
+        <input id="name" name="name" type="text" class="form-control" placeholder="Enter your name" [(ngModel)]="newComment.name"
+               #name="ngModel" required minlength="4" maxlength="20">
+      </div>
+      <div class="col">
+        <input id="email" name="email" type="email" class="form-control" placeholder="Enter you email" [(ngModel)]="newComment.email"
+               #email="ngModel" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+      </div>
     </div>
-    <div class="col">
-      <input type="email" class="form-control" placeholder="Enter you email" [(ngModel)]="newComment.email">
+    <div class="form-row mt-2 p-4">
+      <textarea id="body" type="text" class="form-control" placeholder="Enter comment message"
+             [(ngModel)]="newComment.body"
+             #body="ngModel" required minlength="30">
+      </textarea>
+    </div>
+    <div class="text-center mt-2 text-danger">
+      <div class="md-errors-spacer" [hidden]="name.valid || name.untouched">
+        <div *ngIf="name.errors && name?.errors.required">
+          Name is required
+        </div>
+        <div *ngIf="name.errors && name?.errors.minlength">
+          Name must be at least 4 characters long.
+        </div>
+        <div *ngIf="name.errors && name?.errors.maxlength">
+          Name  entered exceeds the maximum length (20 characters).
+        </div>
+      </div>
+      <div class="md-errors-spacer" [hidden]="email.valid || email.untouched">
+        <div *ngIf="email.errors && email?.errors.required">
+          Email is required
+        </div>
+        <div *ngIf="email.errors && email?.errors.pattern">
+          Email is invalid
+        </div>
+      </div>
+      <div class="md-errors-spacer" [hidden]="body.valid || body.untouched">
+        <div *ngIf="body.errors && body?.errors.required">
+          Comment is required
+        </div>
+        <div *ngIf="body.errors && body?.errors.minlength">
+          Comment must be at least 30 characters long.
+        </div>
+      </div>
+    </div>
+    <div class="form-row justify-content-center mt-2">
+      <button class="btn btn-secondary" (click)="addComment(newComment, post.id)"
+              [disabled]="!email.valid || !name.valid || !body.valid">
+        Post new comment
+      </button>
     </div>
   </div>
-  <div class="form-row mt-2 p-4">
-    <input type="text" class="form-control" placeholder="Enter comment message" [(ngModel)]="newComment.body"/>
-  </div>
-  <div class="form-row justify-content-center mt-2">
-    <button class="btn btn-secondary" (click)="addComment(newComment, post.id)">Post new comment</button>
-  </div>
-</div>
