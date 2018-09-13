@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
 import {PostsService} from '../services/posts.service';
 
 @Component({
@@ -21,10 +20,16 @@ export class PaginationComponent implements OnInit, AfterViewInit {
   l: number;
 
   private _totalPosts: number;
+  private _page: number;
 
   @Input()
   set totalPosts(totalCount: number) {
     this._totalPosts = totalCount;
+    this.updatePagination();
+  }
+  @Input()
+  set page(page: number) {
+    this._page = page;
     this.updatePagination();
   }
 
@@ -32,27 +37,22 @@ export class PaginationComponent implements OnInit, AfterViewInit {
     return this._totalPosts;
   }
 
-  constructor(private activateRoute: ActivatedRoute,) {
+  get page(): number {
+    return this._page;
   }
 
   ngOnInit() {
-    this.addPages();
+    this.updatePagination()
   }
 
   ngAfterViewInit() {
-    this.addPages();
-  }
-
-  addPages() {
-    this.activateRoute.params.subscribe(params => {
-      this.currentPage = parseInt(params.id, 10);
-      this.updatePagination();
-    });
+    this.updatePagination()
   }
 
   updatePagination() {
     if (this.totalPosts > 0) {
       this.totalPages = this.totalPosts / 10;
+      this.currentPage = this.page;
       this.range = [];
       this.rangeWithDots = [];
       this.l = null;
